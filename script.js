@@ -1,9 +1,4 @@
-// function compute()
-// {
-//     p = document.getElementById("principal").value;
-    
-// }
-    
+  
  function Calculate()
     {
         let p=document.getElementById('amount').value;
