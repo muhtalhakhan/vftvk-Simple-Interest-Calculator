@@ -1,100 +1,34 @@
-const simpleInterest = document.querySelector('.simple-interest');
-const button = document.querySelector('.button');
-//const loading = document.querySelector('.loader');
-const results = document.querySelector('.results');
+function compute()
+{
+    var principal = document.getElementById("principal").value;
 
-function calculateResults(e) {
-	// ui elements
-	const principal = document.querySelector('#principal');
-	const rate = document.querySelector('#rate');
-	const time = document.querySelector('#time');
-	const monthlyPayment = document.querySelector('#payment');
-	const totalInterest = document.querySelector('#interest');
-	const totalAmount = document.querySelector('#total');
-	// formula variables
-	const p = parseFloat(principal.value);
-	const r = parseFloat(rate.value);
-	const t = parseFloat(time.value);
-	
-	// calculate total interest
-	const interest = (p*t*r/100);
-	// calculate monthly payment
-	const payment = ((interest + p) / (t * 12)).toFixed(2);
-	// calculate total amount paid
-	const total = (interest + p).toFixed(2);
-	
-	if (isFinite(payment)) {
-		totalInterest.innerHTML = '$' + (interest).toFixed(2);
-		monthlyPayment.innerHTML = '$' + payment;
-		totalAmount.innerHTML = '$' + total;
-		// hide loader
-		button.classList.remove('loading');
-		// show results
-		results.classList.remove('hide');
-	} else {
-		// show error
-		showError('Please check your numbers and try again.');
-		// hide loader
-		button.classList.remove('loading');
-	}
+    if(principal == "" || principal <= 0)
+    {
+        alert("Enter a positive number");
+        document.getElementById("principal").focus();
+        return;
+    }
+
+    var rate = document.getElementById("rate").value;
+    var years = document.getElementById("years").value;
+    var interest = principal * years * rate / 100;
+
+    var dateNow = new Date();
+    var yearNow = parseInt(dateNow.getFullYear()) + parseInt(years);
+    
+    var resultDisplay = document.getElementById("result");
+    resultDisplay.innerHTML = "If you deposit " + "<span class='highlight'>" + principal + "</span>."  + ", <br> at an interest rate of "+ "<span class='highlight'>" + rate + "</span>%." + "<br> You will receive an amount of " + "<span class='highlight'>" + interest + "</span>" + ", <br> in the year " + "<span class='highlight'>" + yearNow + "</span>";
 }
 
-function showError(error) {
-	// create error
-	const errorMessage = document.createElement('div');
-	const calculate = document.querySelector('#calculate');
+function SliderValue()
+{
+    var slider = document.getElementById("rate");
+    var output = document.getElementById("rate_display");
+    output.innerHTML = slider.value; // Display the default slider value
 
-	errorMessage.className = 'error';
-	errorMessage.appendChild(document.createTextNode(error));
-	simpleInterest.insertBefore(errorMessage, calculate);
-	// clear error
-	setTimeout(clearError, 3000);
+    // Update the current slider value (each time you drag the slider handle)
+    slider.oninput = function() 
+    {
+        output.innerHTML = this.value;
+    }  
 }
-
-function clearError() {
-	// remove error
-	document.querySelector('.error').remove();
-}
-
-button.addEventListener('click', (e) => {
-	console.log('Calculating...');
-	// show loader
-	button.classList.add('loading');
-	
-	// set timeout
-	setTimeout(calculateResults, 2000);
-	
-	// prevent page from reloading on submit
-	e.preventDefault();
-});
-
-
-
-/* IMPROVED OLD CODE BELOW */
-// const button = document.querySelector('button');
-
-// function simpleInterest() {
-// 	console.log('Calculating...');
-// 	//ui elements
-// 	const p = parseFloat(document.querySelector('#principal').value);
-// 	const r = parseFloat(document.querySelector('#rate').value);
-// 	const t = parseFloat(document.querySelector('#time').value);
-// 	const interest = document.querySelector('#interest');
-// 	const payment = document.querySelector('#payment');
-// 	const total = document.querySelector('#total');
-
-// 	// calculate interest
-// 	interest.innerHTML = '$' + (p*t*r/100).toFixed(2);
-// 	// calculate monthly payment
-// 	payment.innerHTML = '$' + (((p*t*r/100) + p) / (t * 12)).toFixed(2);
-// 	// calculate total amount
-// 	total.innerHTML = '$' + ((p*t*r/100) + p).toFixed(2);
-	
-// 	if(isFinite(payment)) {
-// 		console.log('go');
-// 	} else {
-// 		console.log('error');
-// 	}
-// }
-
-// button.addEventListener('click',simpleInterest);
